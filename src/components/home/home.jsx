@@ -92,7 +92,7 @@ class Home extends React.Component {
       alert("veulliez remplir tout les champs");
     } else {
       let nStudent = new StudentModel(
-        
+        0,
         this.state.nom,
         this.state.prenom,
         this.state.email,
@@ -100,7 +100,6 @@ class Home extends React.Component {
         false
       );
       this.setState({
-        id:0,
         nom: "",
         prenom: "",
         avatar: "",
@@ -114,22 +113,47 @@ class Home extends React.Component {
         prenom: nStudent.prenom,
         email: nStudent.email,
         avatar: nStudent.avatar,
+        ispresent:nStudent.ispresent,
       }
+    
 
       axios.post("students.json", data_student).then((response)=>{
         let id_new_student = response.data.name;
-        
-       const myNewStudent = {
-         nom: nStudent.nom,
-         prenom: nStudent.prenom,
-         email: nStudent.email,
-         avatar: nStudent.avatar,
-         id: id_new_student
-       }
 
-        console.log(myNewStudent)
+        let newListStudent=this.state.List_students_data;
+        newListStudent.forEach(s=>{
+          if(s.id==0){
+            s.id=id_new_student;
+          }
+        })
+        
+       
+
+      
       })
     }
-  };
+  
+  }
+     //------- recuperer la liste des etudiants depuis firebase
+     componentDidMount(){
+      axios.get("students.json").then((response)=>{
+
+       let keys = Object.keys(response.data)
+       let listEtudiant = keys.map(k=>{
+       
+        let ns = new StudentModel(k,
+          response.data[k].nom,
+          response.data[k].prenom,
+          response.data[k].email,
+          response.data[k].avatar,
+          response.data[k].ispresent
+          );
+        return ns; 
+       })  
+       this.setState({List_students_data:listEtudiant})      
+       console.log(listEtudiant)
+      })
+    
+    }
 }
 export default Home;
