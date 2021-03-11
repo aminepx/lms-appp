@@ -126,7 +126,7 @@ class Home extends React.Component {
             s.id=id_new_student;
           }
         })
-        
+        this.setState({List_students_data:newListStudent})
        
 
       
