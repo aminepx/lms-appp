@@ -1,6 +1,6 @@
 export default class StudentModel{
-  constructor(id,nom,prenom,email,avatar,ispresent){
-      this.id=id;
+  constructor(nom,prenom,email,avatar,ispresent){
+    
       this.nom=nom;
       this.prenom=prenom;
       this.email=email;

@@ -1,5 +1,6 @@
-import axios from'axios'
+import axios from 'axios';
 
-export default axios.creat(){
+export default axios.create({
     baseURL:'https://lms-appp-default-rtdb.firebaseio.com/'
-}
+})
+    
