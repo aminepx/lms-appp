@@ -100,6 +100,7 @@ class Home extends React.Component {
         false
       );
       this.setState({
+        id:0,
         nom: "",
         prenom: "",
         avatar: "",
@@ -108,8 +109,26 @@ class Home extends React.Component {
       let newStudentList = this.state.List_students_data;
       newStudentList.push(nStudent);
       this.setState({ List_students_data: newStudentList });
+      const data_student={
+        nom: nStudent.nom,
+        prenom: nStudent.prenom,
+        email: nStudent.email,
+        avatar: nStudent.avatar,
+      }
 
-      axios.post("students.json", nStudent);
+      axios.post("students.json", data_student).then((response)=>{
+        let id_new_student = response.data.name;
+        
+       const myNewStudent = {
+         nom: nStudent.nom,
+         prenom: nStudent.prenom,
+         email: nStudent.email,
+         avatar: nStudent.avatar,
+         id: id_new_student
+       }
+
+        console.log(myNewStudent)
+      })
     }
   };
 }
