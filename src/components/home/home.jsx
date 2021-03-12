@@ -59,7 +59,9 @@ class Home extends React.Component {
             // changeInputAvatar = {this.changeInputAvatar}
             // changeInputEmail = {this.changeInputEmail}
           />
-          <ListStudent listData={this.state.List_students_data} />
+          <ListStudent 
+          listData={this.state.List_students_data}
+          homeHandleDeleteStudent={this.deleteStudent} />
         </div>
       </>
     );
@@ -154,6 +156,12 @@ class Home extends React.Component {
        console.log(listEtudiant)
       })
     
+    }
+    deleteStudent= (idStudent)=>{
+      axios.delete("students/"+idStudent+".json").then((response)=>{
+        window.reload("")
+      })
+      alert(idStudent)
     }
 }
 export default Home;
