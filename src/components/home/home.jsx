@@ -1,6 +1,6 @@
 import "./style1.css";
 import ListStudent from "../student/list-student";
-import NewStudent from "../student/new-student";
+import FormStudent from "../student/new-student";
 import React from "react";
 import StudentModel from "../../models/student-model";
 import axios from "../../utils/axios";
@@ -15,8 +15,10 @@ class Home extends React.Component {
       prenom: "",
       avatar: "",
       email: "",
+      updatedStudent_id:-1,
       textBtnState:"Add Student",
       iconBtnState:"fas fa-plus-circle",
+      action:"ADD",
 
       List_students_data: [],
       //   new StudentModel("ramzi1",
@@ -54,20 +56,26 @@ class Home extends React.Component {
           <span className="text-warning">Home</span> 🏠
         </h1>
         <div className="container-fluid d-flex p-4">
-          <NewStudent
+          <FormStudent
             iconBtn={this.state.iconBtnState}
             textBtn={this.state.textBtnState}
-            handleSumbit={this.addStudent}
+            handleAddSubmit={this.addStudent}
+            handleEditSubmit={this.submitEditStudent}
             changeInput={this.changeInput}
             // changeInputPren = {this.changeInputPren}
             // changeInputAvatar = {this.changeInputAvatar}
             // changeInputEmail = {this.changeInputEmail}
             avatar={this.state.avatar}
+            nom={this.state.nom}
+            prenom={this.state.prenom}
+            email={this.state.email}
+            action={this.state.action}
           />
           <ListStudent 
           listData={this.state.List_students_data}
           homeHandleDeleteStudent={this.deleteStudent}
           homeHandleEdit={this.editStudent}
+          
           />
         </div>
       </>
@@ -184,6 +192,52 @@ class Home extends React.Component {
       // ----changer le text de la boutton  
       this.setState({textBtnState:'Edit Student'})
       this.setState({iconBtnState:'fas fa-edit'})
+      this.setState({
+        nom:updatedStudent.nom,
+        prenom:updatedStudent.prenom,
+        email:updatedStudent.email,
+        avatar:updatedStudent.avatar,
+        updatedStudent_id:updatedStudent.id,
+      })
+      // -----changer l'action de state 
+      this.setState({action:"EDIT"})
+    }
+    submitEditStudent=(event)=>{
+      event.preventDefault();
+     const student_data={
+     
+      nom:this.state.nom,
+     prenom:this.state.prenom,
+     email:this.state.email,
+     avatar:this.state.avatar,
+    }
+    axios.put("students/"+this.state.updatedStudent_id+".json",student_data).then((response)=>{
+      let newList=this.state.List_students_data;
+      newList.forEach((s)=>{
+        if(s.id==this.state.updatedStudent_id){
+          s.nom=response.data.nom;
+          s.prenom=response.data.prenom;
+          s.email=response.data.email;
+          s.avatar=response.data.avatar;
+        }
+      })
+      this.setState({List_students_data:newList})
+
+      // ----------vider le formulaire
+      event.target.reset();
+      this.setState({
+        nom:"",
+        prenom:"",
+        email:"",
+        avatar:"",
+        updatedStudent_id:-1,
+        textBtnState:"Add Student",
+        iconBtnState:"fas fa-plus-circle",
+        action:"ADD"
+
+      })
+
+    })
     }
 }
 export default Home;

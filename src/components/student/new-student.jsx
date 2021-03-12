@@ -3,9 +3,10 @@ export default function NewStudent(props) {
     return (
         <div className="col-4 border p-5">
           <div className="avatar border mx-auto mt-5 " style={{backgroundImage:`url(${props.avatar || 'https://i.stack.imgur.com/l60Hf.png'})`, backgroundSize:"cover"}} />
-          <form onSubmit={props.handleSumbit} autoComplete="off">
+          <form onSubmit={props.action=="ADD"? props.handleAddSubmit : props.handleEditSubmit} autoComplete="off">
             <div className="mb-4 mt-4 w-70 mx-auto">
               <input
+              value={props.nom}
               name="nom"
               onChange={props.changeInput}
                 placeholder="Firstname"
@@ -15,6 +16,7 @@ export default function NewStudent(props) {
             </div>
             <div className="mb-4 mt-4 w-70 mx-auto">
               <input
+              value={props.prenom}
               name="prenom"
                 onChange = {props.changeInput}
                 placeholder="Lastname"
@@ -24,6 +26,7 @@ export default function NewStudent(props) {
             </div>
             <div className="mb-4 mt-4 w-70 mx-auto">
               <input
+              value={props.email}
               name="email"
               onChange = {props.changeInput}
                 placeholder="Email address"
@@ -33,6 +36,7 @@ export default function NewStudent(props) {
             </div>
             <div className="mb-4 mt-4 w-70 mx-auto">
               <input
+              value={props.avatar}
               name="avatar"
               onChange = {props.changeInput}
                 placeholder="Url Avatar"
