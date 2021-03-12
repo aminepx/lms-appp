@@ -15,6 +15,8 @@ class Home extends React.Component {
       prenom: "",
       avatar: "",
       email: "",
+      textBtnState:"Add Student",
+      iconBtnState:"fas fa-plus-circle",
 
       List_students_data: [],
       //   new StudentModel("ramzi1",
@@ -53,6 +55,8 @@ class Home extends React.Component {
         </h1>
         <div className="container-fluid d-flex p-4">
           <NewStudent
+            iconBtn={this.state.iconBtnState}
+            textBtn={this.state.textBtnState}
             handleSumbit={this.addStudent}
             changeInput={this.changeInput}
             // changeInputPren = {this.changeInputPren}
@@ -62,7 +66,9 @@ class Home extends React.Component {
           />
           <ListStudent 
           listData={this.state.List_students_data}
-          homeHandleDeleteStudent={this.deleteStudent} />
+          homeHandleDeleteStudent={this.deleteStudent}
+          homeHandleEdit={this.editStudent}
+          />
         </div>
       </>
     );
@@ -173,6 +179,11 @@ class Home extends React.Component {
       }
       
       
+    }
+    editStudent=(updatedStudent)=>{
+      // ----changer le text de la boutton  
+      this.setState({textBtnState:'Edit Student'})
+      this.setState({iconBtnState:'fas fa-edit'})
     }
 }
 export default Home;

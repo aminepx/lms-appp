@@ -14,6 +14,7 @@ export default function ListStudent(props) {
             {
               props.listData.map(s => <Student key={s.id} data={s} 
                 listeHandleDelete={props.homeHandleDeleteStudent}
+                listHandleEdit={props.homeHandleEdit}
               />)
               
             }

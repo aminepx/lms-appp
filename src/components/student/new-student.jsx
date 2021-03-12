@@ -2,7 +2,7 @@ import React from 'react'
 export default function NewStudent(props) {
     return (
         <div className="col-4 border p-5">
-          <div className="avatar border mx-auto mt-5 " style={{backgroundImage:`url(${props.avatar || 'https://i.stack.imgur.com/l60Hf.png'})`}} />
+          <div className="avatar border mx-auto mt-5 " style={{backgroundImage:`url(${props.avatar || 'https://i.stack.imgur.com/l60Hf.png'})`, backgroundSize:"cover"}} />
           <form onSubmit={props.handleSumbit} autoComplete="off">
             <div className="mb-4 mt-4 w-70 mx-auto">
               <input
@@ -43,7 +43,7 @@ export default function NewStudent(props) {
             
             <div className="text-center">
               <button type="submit" className="btn btn-warning">
-                Add Student <i className="fas fa-plus-circle" />
+                {props.textBtn} <i className={props.iconBtn} />
               </button>
             </div>
           </form>
