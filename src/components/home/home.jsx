@@ -58,6 +58,7 @@ class Home extends React.Component {
             // changeInputPren = {this.changeInputPren}
             // changeInputAvatar = {this.changeInputAvatar}
             // changeInputEmail = {this.changeInputEmail}
+            avatar={this.state.avatar}
           />
           <ListStudent 
           listData={this.state.List_students_data}
@@ -139,29 +140,39 @@ class Home extends React.Component {
      //------- recuperer la liste des etudiants depuis firebase
      componentDidMount(){
       axios.get("students.json").then((response)=>{
-
-       let keys = Object.keys(response.data)
-       let listEtudiant = keys.map(k=>{
+      if(response.data!=null){
+        let keys = Object.keys(response.data)
+        let listEtudiant = keys.map(k=>{
+        
+         let ns = new StudentModel(k,
+           response.data[k].nom,
+           response.data[k].prenom,
+           response.data[k].email,
+           response.data[k].avatar,
+           response.data[k].ispresent
+           );
+         return ns; 
+        }) 
        
-        let ns = new StudentModel(k,
-          response.data[k].nom,
-          response.data[k].prenom,
-          response.data[k].email,
-          response.data[k].avatar,
-          response.data[k].ispresent
-          );
-        return ns; 
-       })  
-       this.setState({List_students_data:listEtudiant})      
-       console.log(listEtudiant)
-      })
+        this.setState({List_students_data:listEtudiant})      
+        
+      } 
+     })
+      
+       
     
     }
     deleteStudent= (idStudent)=>{
-      axios.delete("students/"+idStudent+".json").then((response)=>{
-        window.reload("")
-      })
-      alert(idStudent)
+      let choice = window.confirm("are you sure")
+      if(choice==true){
+        axios.delete("students/"+idStudent+".json").then(()=>{
+          let newList = this.state.List_students_data.filter((s)=>s.id!=idStudent
+          );
+          this.setState({List_students_data:newList});
+        })
+      }
+      
+      
     }
 }
 export default Home;
